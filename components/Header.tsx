@@ -5,7 +5,7 @@ import { Github, Twitter, X } from "lucide-react"
 
 export default function Header() {
   return (
-    <header className="relative z-50 w-full pt-10">
+    <header className="relative z-50 w-full pt-6">
       <div className="max-w-7xl mx-auto h-14 px-4 flex items-center justify-between">
 
         {/* Brand */}

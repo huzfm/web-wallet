@@ -160,7 +160,7 @@ export default function WalletGenerator() {
           </div>
 
           <div className="flex justify-center">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl w-full">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl w-full">
               {wallets.map((wallet, i) => (
                 <WalletCard key={i} {...wallet} />
               ))}
