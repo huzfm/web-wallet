@@ -11,6 +11,28 @@ export const metadata: Metadata = {
   title: "Multi-Chain Wallet Generator",
   description: "Generate secure Bitcoin, Ethereum, and Solana wallets from a single seed phrase",
   generator: "v0.app",
+  openGraph: {
+    title: "Web Wallet Bootcamp 1.0",
+    description: "Generate secure Bitcoin, Ethereum, and Solana wallets from a single seed phrase",
+    url: "https://web-wallet-bootcamp.vercel.app",
+    siteName: "Web Wallet Bootcamp",
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: "Web Wallet Bootcamp - Multi-Chain Wallet Generator",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Web Wallet Bootcamp 1.0",
+    description: "Generate secure Bitcoin, Ethereum, and Solana wallets from a single seed phrase",
+    images: ["/og.png"],
+  },
   icons: {
     icon: [
       {
