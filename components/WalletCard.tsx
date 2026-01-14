@@ -66,7 +66,7 @@ export default function WalletCard({
   return (
     <Card className="w-full  rounded-2xl border-border/60 bg-neutral-900 backdrop-blur shadow-sm p-10 space-y-4">
 
-      {/* Header */}
+      {}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-lg border bg-neutral-900 text-base font-semibold">
@@ -78,7 +78,7 @@ export default function WalletCard({
         </div>
 
         <div className="flex items-center gap-2">
-          {/* Balance button */}
+          {}
           <Button
             onClick={handleRefreshBalance}
             disabled={loadingBalance}
@@ -98,7 +98,7 @@ export default function WalletCard({
             )}
           </Button>
 
-          {/* Delete button */}
+          {}
           {onDelete && (
             <Button
               onClick={onDelete}
@@ -112,7 +112,7 @@ export default function WalletCard({
         </div>
       </div>
 
-      {/* Address */}
+      {}
       <div className="space-y-1.5">
         <p className="text-[11px] uppercase tracking-wide text-muted-foreground pl-2">
           Address
@@ -138,7 +138,7 @@ export default function WalletCard({
         </div>
       </div>
 
-      {/* Private key */}
+      {}
       <div className="space-y-1.5">
         <p className="text-[11px] pl-2 uppercase tracking-wide text-muted-foreground">
           Private key
@@ -153,7 +153,7 @@ export default function WalletCard({
             {showPrivateKey ? privateKey : "•".repeat(36)}
           </code>
 
-          {/* Eye */}
+          {}
           <Button
             onClick={() => setShowPrivateKey(!showPrivateKey)}
             variant="ghost"
@@ -167,7 +167,7 @@ export default function WalletCard({
             )}
           </Button>
 
-          {/* Copy */}
+          {}
           <Button
             onClick={() => handleCopy(privateKey, "privateKey")}
             variant="ghost"
@@ -183,7 +183,7 @@ export default function WalletCard({
         </div>
       </div>
 
-      {/* Warning only when visible */}
+      {}
       {showPrivateKey && (
         <div className="flex gap-2 rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2">
           <Lock className="h-4 w-4 text-destructive mt-0.5" />

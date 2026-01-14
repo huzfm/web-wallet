@@ -7,7 +7,7 @@ export default function Home() {
 
 <div className="min-h-screen w-full bg-black relative">
   <Header />
-  {/* Dark White Dotted Grid Background */}
+  {}
   <div
     className="absolute inset-0 z-0"
     style={{
@@ -19,7 +19,7 @@ export default function Home() {
       backgroundPosition: "0 0",
     }}
   />
-     {/* Your Content/Components */}
+     {}
      <main className="min-h-screen ">
      
       <WalletGenerator />

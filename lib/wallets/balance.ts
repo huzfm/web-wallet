@@ -2,7 +2,7 @@ import axios from "axios";
 import { Connection, PublicKey } from "@solana/web3.js";
 import { ethers } from "ethers";
 
-/* ---------- ETHEREUM ---------- */
+
 const ethProvider = new ethers.JsonRpcProvider(
   "https://ethereum.publicnode.com"
 );
@@ -12,7 +12,7 @@ export async function getEthereumBalance(address: string): Promise<string> {
   return ethers.formatEther(balance);
 }
 
-/* ---------- SOLANA ---------- */
+
 const solConnection = new Connection(
   "https://solana.publicnode.com",
   "confirmed"
@@ -24,7 +24,7 @@ export async function getSolanaBalance(address: string): Promise<number> {
   return balance / 1e9;
 }
 
-/* ---------- BITCOIN ---------- */
+
 export async function getBitcoinBalance(address: string): Promise<number> {
   const res = await axios.get(
     `https://blockstream.info/api/address/${address}`

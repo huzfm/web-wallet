@@ -22,7 +22,7 @@ export default function SeedPhraseDisplay({ mnemonic }: SeedPhraseDisplayProps) 
 
   return (
     <div className="relative max-w-3xl mx-auto">
-      {/* Ambient background */}
+      {}
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute -top-32 left-1/2 h-96 w-96 -translate-x-1/2 rounded-full bg-primary/10 blur-3xl" />
         <div className="absolute -bottom-32 right-1/3 h-80 w-80 rounded-full bg-muted-foreground/10 blur-3xl" />
@@ -31,7 +31,7 @@ export default function SeedPhraseDisplay({ mnemonic }: SeedPhraseDisplayProps) 
       <Card className="relative overflow-hidden rounded-2xl bg-neutral-900 backdrop-blur-xl shadow-lg border-1">
         <div className="px-6 md:px-10 pb-6 md:pb-10 pt-4 md:pt-6 space-y-6">
 
-          {/* Header */}
+          {}
           <div className="flex items-start justify-between ">
             <h2 className="text-2xl md:text-3xl font-semibold tracking-tight">
               Your recovery phrase
@@ -50,14 +50,14 @@ export default function SeedPhraseDisplay({ mnemonic }: SeedPhraseDisplayProps) 
             </Button>
           </div>
 
-          {/* Seed area */}
+          {}
           <div
             className={cn(
               "relative overflow-hidden rounded-2xl border  p-6 md:p-8 transition-all duration-300",
               showSeed ? "ring-1 ring-white/20" : "py-16"
             )}
           >
-            {/* Blurred background when hidden */}
+            {}
             {!showSeed && (
               <div className="absolute inset-0 grid grid-cols-3 sm:grid-cols-4 gap-4 p-6 md:p-8">
                 {mnemonic.split(" ").map((_, i) => (
@@ -69,7 +69,7 @@ export default function SeedPhraseDisplay({ mnemonic }: SeedPhraseDisplayProps) 
               </div>
             )}
 
-            {/* Foreground */}
+            {}
             <div className={cn("relative z-10", !showSeed && "flex justify-center")}>
               {showSeed ? (
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -102,7 +102,7 @@ export default function SeedPhraseDisplay({ mnemonic }: SeedPhraseDisplayProps) 
             </div>
           </div>
 
-          {/* Security warning - only show when seed is revealed */}
+          {}
           {showSeed && (
             <div className="flex items-start gap-3 rounded-2xl border border-destructive/30 bg-destructive/10 p-5">
               <AlertTriangle className="h-5 w-5 text-destructive mt-0.5" />
@@ -113,7 +113,7 @@ export default function SeedPhraseDisplay({ mnemonic }: SeedPhraseDisplayProps) 
             </div>
           )}
 
-          {/* Actions */}
+          {}
           <div className="flex flex-col sm:flex-row gap-4">
             <Button
               onClick={handleCopy}

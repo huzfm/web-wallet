@@ -37,7 +37,7 @@ export default function WalletGenerator() {
   const [loading, setLoading] = useState(false)
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
 
-  // Load from localStorage on mount
+
   useEffect(() => {
     const savedMnemonic = localStorage.getItem("wallet_mnemonic")
     const savedWallets = localStorage.getItem("wallet_wallets")
@@ -52,7 +52,7 @@ export default function WalletGenerator() {
     }
   }, [])
 
-  // Save mnemonic to localStorage whenever it changes
+
   useEffect(() => {
     if (mnemonic) {
       localStorage.setItem("wallet_mnemonic", mnemonic)
@@ -61,7 +61,7 @@ export default function WalletGenerator() {
     }
   }, [mnemonic])
 
-  // Save wallets to localStorage whenever they change
+
   useEffect(() => {
     if (wallets.length > 0) {
       localStorage.setItem("wallet_wallets", JSON.stringify(wallets))
@@ -87,7 +87,7 @@ export default function WalletGenerator() {
       else if (type === "eth") wallet = generateEthereumWallet(seed)
       else wallet = generateSolanaWallet(seed)
 
-      // Calculate count for this chain type
+
       setWallets((prev) => {
         const chainCount = prev.filter(w => w.chain === wallet.chain).length + 1
         return [...prev, { ...wallet, count: chainCount }]
@@ -112,13 +112,13 @@ export default function WalletGenerator() {
   return (
     <div className="relative max-w-7xl mx-auto px-4 py-10 space-y-10">
 
-      {/* Two Column Layout - Asymmetrical */}
+
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
-        {/* LEFT SIDE - Controls (narrower & more compact) */}
+
         <Card className="lg:col-span-5 rounded-2xl bg-neutral-900 backdrop-blur-xl shadow-lg p-6 space-y-6 h-fit">
           
-          {/* Step 1 - Generate Seed Phrase */}
+
           <section className="space-y-3 pb-5">
             <div className="space-y-2">
               <h2 className="text-lg font-semibold">Step 1</h2>
@@ -143,7 +143,7 @@ export default function WalletGenerator() {
             </Button>
           </section>
 
-          {/* Step 2 - Generate Wallets */}
+
           {mnemonic && (
             <section className="space-y-3">
               <div className="space-y-2">
@@ -184,7 +184,7 @@ export default function WalletGenerator() {
           )}
         </Card>
 
-        {/* RIGHT SIDE - Seed Phrase Display (wider) */}
+
         <div className="lg:col-span-7 lg:sticky lg:top-10 h-fit bg-gray rounded-md">
           {mnemonic ? (
             <SeedPhraseDisplay mnemonic={mnemonic} />
@@ -206,7 +206,7 @@ export default function WalletGenerator() {
         </div>
       </div>
 
-      {/* Wallets Section */}
+
       {wallets.length > 0 && (
         <section className="space-y-10">
           <div className="text-center space-y-4">
@@ -241,7 +241,7 @@ export default function WalletGenerator() {
         </section>
       )}
 
-      {/* Delete All Confirmation Dialog */}
+
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>
