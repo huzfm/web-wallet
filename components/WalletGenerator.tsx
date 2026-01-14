@@ -101,6 +101,7 @@ export default function WalletGenerator() {
 
   const handleDeleteWallet = (index: number) => {
     setWallets((prev) => prev.filter((_, i) => i !== index))
+    toast.success("Wallet deleted")
   }
 
   const handleDeleteAllWallets = () => {
