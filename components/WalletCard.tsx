@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Eye, EyeOff, Copy, Check, RefreshCw, Lock } from "lucide-react"
+import { Eye, EyeOff, Copy, Check, RefreshCw, Lock, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { getBitcoinBalance, getEthereumBalance, getSolanaBalance } from "@/lib/wallets/balance"
@@ -13,6 +13,7 @@ type WalletCardProps = {
   privateKey: string
   balance?: string | number
   count?: number
+  onDelete?: () => void
 }
 
 export default function WalletCard({
@@ -21,6 +22,7 @@ export default function WalletCard({
   privateKey,
   balance: initialBalance,
   count,
+  onDelete,
 }: WalletCardProps) {
   const [showPrivateKey, setShowPrivateKey] = useState(false)
   const [copiedField, setCopiedField] = useState<string | null>(null)
@@ -62,12 +64,12 @@ export default function WalletCard({
   }
 
   return (
-    <Card className="w-full max-w-md rounded-2xl border-border/60 bg-background/70 backdrop-blur shadow-sm px-5 py-4 space-y-4">
+    <Card className="w-full  rounded-2xl border-border/60 bg-neutral-900 backdrop-blur shadow-sm p-10 space-y-4">
 
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg border bg-background text-base font-semibold">
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg border bg-neutral-900 text-base font-semibold">
             {config.icon}
           </div>
           <span className="text-base font-semibold">
@@ -75,25 +77,39 @@ export default function WalletCard({
           </span>
         </div>
 
-        {/* Balance button */}
-        <Button
-          onClick={handleRefreshBalance}
-          disabled={loadingBalance}
-          size="sm"
-          variant="outline"
-          className="h-9 px-3 rounded-md text-xs"
-        >
-          {loadingBalance ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
-          ) : balance !== undefined ? (
-            `${balance} ${config.symbol}`
-          ) : (
-            <>
-              <RefreshCw className="h-4 w-4 mr-1.5" />
-              Fetch balance
-            </>
+        <div className="flex items-center gap-2">
+          {/* Balance button */}
+          <Button
+            onClick={handleRefreshBalance}
+            disabled={loadingBalance}
+            size="sm"
+            variant="outline"
+            className="h-9 px-3 rounded-md text-xs"
+          >
+            {loadingBalance ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : balance !== undefined ? (
+              `${balance} ${config.symbol}`
+            ) : (
+              <>
+                <RefreshCw className="h-4 w-4 mr-1.5" />
+                Balance
+              </>
+            )}
+          </Button>
+
+          {/* Delete button */}
+          {onDelete && (
+            <Button
+              onClick={onDelete}
+              size="sm"
+              variant="ghost"
+              className="h-9 w-9 p-0 text-destructive hover:text-destructive hover:bg-destructive/10"
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
           )}
-        </Button>
+        </div>
       </div>
 
       {/* Address */}

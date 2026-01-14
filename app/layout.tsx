@@ -2,6 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
+import { Toaster } from "@/components/ui/sonner"
 
 const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
@@ -48,6 +49,9 @@ export default function RootLayout({
         <div className="relative z-10">
           {children}
         </div>
+        
+        {/* Toast notifications - top center */}
+        <Toaster position="top-center" />
       </body>
     </html>
   )

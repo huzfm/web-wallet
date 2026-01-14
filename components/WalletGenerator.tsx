@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { generateMnemonic, mnemonicToSeed } from "@/lib/wallets/mnemonic"
 import { createBitcoinWallet } from "@/lib/wallets/bitcoin"
 import { generateEthereumWallet } from "@/lib/wallets/ethereum"
@@ -9,8 +9,19 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import WalletCard from "./WalletCard"
 import SeedPhraseDisplay from "./seed-phrase-show"
-import { Loader2, Wallet } from "lucide-react"
+import { Loader2, Wallet, Trash2 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { toast } from "sonner"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
 
 type WalletType = {
   chain: string
@@ -24,6 +35,40 @@ export default function WalletGenerator() {
   const [mnemonic, setMnemonic] = useState("")
   const [wallets, setWallets] = useState<WalletType[]>([])
   const [loading, setLoading] = useState(false)
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
+
+  // Load from localStorage on mount
+  useEffect(() => {
+    const savedMnemonic = localStorage.getItem("wallet_mnemonic")
+    const savedWallets = localStorage.getItem("wallet_wallets")
+    
+    if (savedMnemonic) setMnemonic(savedMnemonic)
+    if (savedWallets) {
+      try {
+        setWallets(JSON.parse(savedWallets))
+      } catch (e) {
+        console.error("Failed to parse saved wallets:", e)
+      }
+    }
+  }, [])
+
+  // Save mnemonic to localStorage whenever it changes
+  useEffect(() => {
+    if (mnemonic) {
+      localStorage.setItem("wallet_mnemonic", mnemonic)
+    } else {
+      localStorage.removeItem("wallet_mnemonic")
+    }
+  }, [mnemonic])
+
+  // Save wallets to localStorage whenever they change
+  useEffect(() => {
+    if (wallets.length > 0) {
+      localStorage.setItem("wallet_wallets", JSON.stringify(wallets))
+    } else {
+      localStorage.removeItem("wallet_wallets")
+    }
+  }, [wallets])
 
   const handleGenerateMnemonic = () => {
     setWallets([])
@@ -47,9 +92,21 @@ export default function WalletGenerator() {
         const chainCount = prev.filter(w => w.chain === wallet.chain).length + 1
         return [...prev, { ...wallet, count: chainCount }]
       })
+
+      toast.success(`${wallet.chain} wallet created successfully!`)
     } finally {
       setLoading(false)
     }
+  }
+
+  const handleDeleteWallet = (index: number) => {
+    setWallets((prev) => prev.filter((_, i) => i !== index))
+  }
+
+  const handleDeleteAllWallets = () => {
+    setWallets([])
+    setShowDeleteDialog(false)
+    toast.success("All wallets deleted")
   }
 
   return (
@@ -59,7 +116,7 @@ export default function WalletGenerator() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
         {/* LEFT SIDE - Controls (narrower & more compact) */}
-        <Card className="lg:col-span-5 rounded-2xl bg-background/70 backdrop-blur-xl shadow-lg p-6 space-y-6 h-fit">
+        <Card className="lg:col-span-5 rounded-2xl bg-neutral-900 backdrop-blur-xl shadow-lg p-6 space-y-6 h-fit">
           
           {/* Step 1 - Generate Seed Phrase */}
           <section className="space-y-3 pb-5">
@@ -96,7 +153,7 @@ export default function WalletGenerator() {
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 gap-3 ">
+              <div className="grid grid-cols-1 gap-11 ">
                 {[
                   { key: "btc", label: "Bitcoin", icon: "₿" },
                   { key: "eth", label: "Ethereum", icon: "Ξ" },
@@ -132,9 +189,9 @@ export default function WalletGenerator() {
           {mnemonic ? (
             <SeedPhraseDisplay mnemonic={mnemonic} />
           ) : (
-            <Card className=" bg-background/100">
+            <Card className=" bg-neutral-900">
               <div className="p-16 text-center space-y-4">
-                <div className="mx-auto flex h-16 w-16 items-center justify-center  bg-background">
+                <div className="mx-auto flex h-16 w-16 items-center justify-center  ">
                   <Wallet className="h-8 w-8 text-muted-foreground" />
                 </div>
                 <div className="space-y-2">
@@ -152,22 +209,59 @@ export default function WalletGenerator() {
       {/* Wallets Section */}
       {wallets.length > 0 && (
         <section className="space-y-10">
-          <div className="text-center">
-            <h2 className="text-4xl font-semibold pt-10">Your wallets</h2>
-            <p className="text-md text-muted-foreground pb-5">
-              Derived from your recovery phrase
-            </p>
+          <div className="text-center space-y-4">
+            <div>
+              <h2 className="text-4xl font-semibold pt-10">Your wallets</h2>
+              <p className="text-md text-muted-foreground pb-5">
+                Derived from your recovery phrase
+              </p>
+            </div>
+            <Button
+              onClick={() => setShowDeleteDialog(true)}
+              variant="destructive"
+              size="sm"
+              className="h-9 px-4 rounded-lg"
+            >
+              <Trash2 className="h-4 w-4 mr-2" />
+              Delete All Wallets
+            </Button>
           </div>
 
           <div className="flex justify-center">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl w-full">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl w-full">
               {wallets.map((wallet, i) => (
-                <WalletCard key={i} {...wallet} />
+                <WalletCard 
+                  key={i} 
+                  {...wallet} 
+                  onDelete={() => handleDeleteWallet(i)}
+                />
               ))}
             </div>
           </div>
         </section>
       )}
+
+      {/* Delete All Confirmation Dialog */}
+      <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete All Wallets?</AlertDialogTitle>
+            <AlertDialogDescription>
+               This will permanently delete all
+              your generated wallets.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteAllWallets}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Delete All
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   )
 }

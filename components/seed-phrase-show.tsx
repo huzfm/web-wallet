@@ -28,7 +28,7 @@ export default function SeedPhraseDisplay({ mnemonic }: SeedPhraseDisplayProps) 
         <div className="absolute -bottom-32 right-1/3 h-80 w-80 rounded-full bg-muted-foreground/10 blur-3xl" />
       </div>
 
-      <Card className="relative overflow-hidden rounded-2xl bg-background/70 backdrop-blur-xl shadow-lg border-1">
+      <Card className="relative overflow-hidden rounded-2xl bg-neutral-900 backdrop-blur-xl shadow-lg border-1">
         <div className="px-6 md:px-10 pb-6 md:pb-10 pt-4 md:pt-6 space-y-6">
 
           {/* Header */}
@@ -124,12 +124,14 @@ export default function SeedPhraseDisplay({ mnemonic }: SeedPhraseDisplayProps) 
               {copied ? (
                 <>
                   <Check className="h-5 w-5 mr-2" />
-                  Copied to clipboard
+                  <span className="md:hidden">Copied</span>
+                  <span className="hidden md:inline">Copied to clipboard</span>
                 </>
               ) : (
                 <>
                   <Copy className="h-5 w-5 mr-2" />
-                  Copy recovery phrase
+                  <span className="md:hidden">Copy</span>
+                  <span className="hidden md:inline">Copy recovery phrase</span>
                 </>
               )}
             </Button>

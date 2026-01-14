@@ -10,7 +10,7 @@ export default function Header() {
 
         {/* Brand */}
         <Link href="/" className="flex items-center gap-2">
-          <span className="text-xl font-semibold font-mono">
+          <span className="text-sm sm:text-md lg:text-xl font-semibold font-mono border-2 border-white/20 p-2 sm:p-3 lg:p-4 bg-black rounded-xl sm:rounded-2xl ring-1 ring-white/30 shadow">
             Web Wallet Bootcamp 1.0
           </span>
         </Link>
