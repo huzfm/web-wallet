@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Connection, PublicKey } from "@solana/web3.js";
+import { Connection, PublicKey,clusterApiUrl } from "@solana/web3.js";
 import { ethers } from "ethers";
 
 
@@ -13,15 +13,12 @@ export async function getEthereumBalance(address: string): Promise<string> {
 }
 
 
-const solConnection = new Connection(
-  "https://solana.publicnode.com",
-  "confirmed"
-);
 
+const solConnection = new Connection(clusterApiUrl('devnet'),"confirmed")
 export async function getSolanaBalance(address: string): Promise<number> {
   const pubKey = new PublicKey(address);
   const balance = await solConnection.getBalance(pubKey);
-  return balance / 1e9;
+  return balance / 1e9;  // conversion of lamps to SOL
 }
 
 
